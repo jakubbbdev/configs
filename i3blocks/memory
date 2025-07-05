@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Get memory usage
+used=$(free -m | awk '/Mem:/ {print $3}')
+total=$(free -m | awk '/Mem:/ {print $2}')
+used_h=$(free -h | awk '/Mem:/ {print $3}')
+total_h=$(free -h | awk '/Mem:/ {print $2}')
+
+percent=$((100 * used / total))
+
+echo "$used_h/$total_h"
+
+# Optional short text
+echo "$used_h"
+
+# Color coding
+if [ "$percent" -gt 85 ]; then
+    echo "#FF0000"  # Red
+elif [ "$percent" -gt 70 ]; then
+    echo "#FFA500"  # Orange
+else
+    echo "#00FF00"  # Green
+fi
