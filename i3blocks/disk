@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Get disk info for root (/)
+read -r used available total percent <<< $(df -h / | awk 'NR==2 {print $3, $4, $2, $5}')
+percent_num=$(echo "$percent" | tr -d '%')
+
+# Output free/total
+echo "$available/$total"
+echo "$available"
+
+# Color based on usage %
+if [ "$percent_num" -gt 90 ]; then
+    echo "#FF0000"  # Red
+elif [ "$percent_num" -gt 60 ]; then
+    echo "#FFA500"  # Orange
+else
+    echo "#00FF00"  # Green
+fi
