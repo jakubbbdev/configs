@@ -1,0 +1,9 @@
+#!/bin/bash
+
+vol=$(amixer get Master | awk -F'[][]' '/%/ { print $2; exit }')
+state=$(amixer get Master | awk -F'[][]' '/%/ { print $4; exit }')
+if [ "$state" = "off" ]; then
+    echo "VOL: muted"
+else
+    echo "VOL: $vol"
+fi
