@@ -1,0 +1,19 @@
+[ethernet]
+command=~/.config/i3blocks/ethernet
+interval=5
+
+[disk]
+command=~/.config/i3blocks/disk
+interval=30
+
+[memory]
+command=~/.config/i3blocks/memory
+interval=10
+
+[volume]
+command=~/.config/i3blocks/volume
+interval=1
+
+[tztime]
+command=date '+%Y-%d-%m %H:%M:%S'
+interval=1
