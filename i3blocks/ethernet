@@ -1,0 +1,28 @@
+#!/bin/bash
+
+DEFAULT_SPEED=1000  # in Mbps
+
+# Find active interface (non-loopback)
+interface=$(ip -o -4 addr show up | awk '!/ lo / {print $2; exit}')
+ip=$(ip -o -4 addr show dev "$interface" | awk '{print $4}' | cut -d/ -f1)
+speed_file="/sys/class/net/$interface/speed"
+
+# Try to read speed
+speed=$(cat "$speed_file" 2>/dev/null)
+
+if [ -n "$ip" ]; then
+    display_speed="${speed:-unknown} Mbps"
+    echo "Ethernet: $ip ($display_speed)"
+    echo "$ip"
+
+    # Set color
+    if [[ "$speed" =~ ^[0-9]+$ ]] && [ "$speed" -lt "$DEFAULT_SPEED" ]; then
+        echo "#FFA500"  # Orange if slower than expected
+    else
+        echo "#00FF00"  # Green if full speed or unknown
+    fi
+else
+    echo "Ethernet: down"
+    echo "down"
+    echo "#FF0000"  # Red if no connection
+fi
